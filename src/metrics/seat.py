@@ -25,7 +25,7 @@ XX = [
 YY = ["male", "man", "boy", "brother", "son", "father", "uncle", "grandfather", "son"]
 
 
-def get_index(sentence, word):
+def get_index(sentence, word, tokenizer):
     toks = tokenizer(sentence).input_ids
     wordpieces = tokenizer(word).input_ids
     #     print(toks)
@@ -77,7 +77,7 @@ def sentence_embedding(template, word, embedding_type: EmbeddingType, tokenizer,
         input_mask_expanded = (
             inputs.attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
         )
-        start = get_index(sentence, word)
+        start = get_index(sentence, word, tokenizer)
         sum_embeddings = torch.sum(token_embeddings[0][start:end], 0)
         pooled_output = sum_embeddings
         return pooled_output.cpu().detach().numpy()
@@ -94,7 +94,7 @@ def sentence_embedding(template, word, embedding_type: EmbeddingType, tokenizer,
         input_mask_expanded = (
             inputs.attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
         )
-        start = get_index(sentence, word)
+        start = get_index(sentence, word, tokenizer)
         sum_embeddings = torch.sum(token_embeddings[0][start:end], 0)
         pooled_output = sum_embeddings
         return pooled_output.cpu().detach().numpy()
@@ -312,5 +312,9 @@ def tan_et_al_test(attribute_template: str, target_template: str, tokenizer, mod
     Variation of the SEAT test with pooled embeddings.
     """
     return test(
-        attribute_template, target_template, tokenizer, model, EmbeddingType.POOLED_NO_CONTEXT
+        attribute_template,
+        target_template,
+        tokenizer,
+        model,
+        EmbeddingType.POOLED_NO_CONTEXT,
     )
