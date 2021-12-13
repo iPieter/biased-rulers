@@ -1,20 +1,16 @@
-from transformers import BertTokenizer, BertModel
 import torch
 import pandas as pd
 import numpy as np
 import math
 from ..data import professions
+from enum import Enum
 
 data_file = professions.load_dataset()
 
 male_list = data_file.male_list
 female_list = data_file.female_list
 # female_list
-from transformers import BertTokenizer, BertModel
-import torch
 
-tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
-model = BertModel.from_pretrained("bert-base-uncased")
 XX = [
     "female",
     "woman",
@@ -39,9 +35,18 @@ def get_index(sentence, word):
             return i
 
 
-def sentence_embedding(template, word, ind):
+class EmbeddingType(Enum):
+    CLS = 0
+    NO_CONTEXT_CLS = 1
+    TEMPLATES_FIRST = 2
+    POOLED_NO_CONTEXT = 3
+    NO_CONTEXT_TEMPLATES = 4
+    VULIC = 5
+
+
+def sentence_embedding(template, word, embedding_type: EmbeddingType, tokenizer, model):
     # CLS embedding
-    if ind == 0:
+    if embedding_type == EmbeddingType.CLS:
         sentence = template.replace("_", word)
         inputs = tokenizer(sentence, return_tensors="pt")
         outputs = model(**inputs)
@@ -50,7 +55,7 @@ def sentence_embedding(template, word, ind):
         return token_embeddings[0][0].cpu().detach().numpy()
 
     # no context
-    if ind == 1:
+    if embedding_type == EmbeddingType.NO_CONTEXT_CLS:
         template = "_"
         sentence = template.replace("_", word)
         inputs = tokenizer(sentence, return_tensors="pt")
@@ -60,7 +65,7 @@ def sentence_embedding(template, word, ind):
         return token_embeddings[0][0].cpu().detach().numpy()
 
     # no context pooled
-    if ind == 2:
+    if embedding_type == EmbeddingType.TEMPLATES_FIRST:
         template = "_"
         start = 1
         end = -1
@@ -78,7 +83,7 @@ def sentence_embedding(template, word, ind):
         return pooled_output.cpu().detach().numpy()
 
     # SWP pooled
-    if ind == 3:
+    if embedding_type == EmbeddingType.POOLED_NO_CONTEXT:
         start = 4
         end = -2
         sentence = template.replace("_", word)
@@ -95,7 +100,7 @@ def sentence_embedding(template, word, ind):
         return pooled_output.cpu().detach().numpy()
 
     # SWP first embedding
-    if ind == 4:
+    if embedding_type == EmbeddingType.NO_CONTEXT_TEMPLATES:
         start = 4
         sentence = template.replace("_", word)
         inputs = tokenizer(sentence, return_tensors="pt")
@@ -112,7 +117,7 @@ def sentence_embedding(template, word, ind):
         return embeddings.cpu().detach().numpy()
 
     # Vulic
-    if ind == 5:
+    if embedding_type == EmbeddingType.VULIC:
         template = "_"
         sentence = template.replace("_", word)
         inputs = tokenizer(sentence, return_tensors="pt")
