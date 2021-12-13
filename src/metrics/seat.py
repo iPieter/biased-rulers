@@ -217,3 +217,65 @@ def get_effect_size(df1, df2, k=0):
     diff = df1[k].mean() - df2[k].mean()
     std_ = pd.concat([df1, df2], axis=0)[k].std() + 1e-8
     return diff / std_
+
+
+def seat_test(attribute_template: str, target_template: str, tokenizer, model):
+    """
+    Calculate SEAT score.
+    """
+    score_dict = {}
+
+    X = {
+        "x"
+        + str(j): sentence_embedding(
+            attribute_template, j, EmbeddingType.CLS, tokenizer, model
+        )
+        for j in XX
+    }
+    Y = {
+        "y"
+        + str(j): sentence_embedding(
+            attribute_template, j, EmbeddingType.CLS, tokenizer, model
+        )
+        for j in YY
+    }
+    (X, Y) = convert_keys_to_ints(X, Y)
+    XY = X.copy()
+    XY.update(Y)
+    X = np.array(list(X), dtype=np.int)
+    Y = np.array(list(Y), dtype=np.int)
+    for i in range(len(female_list)):
+        AA = female_list[i]
+        #     print(AA)
+        #     print(XX)
+        BB = male_list[i]
+
+        A = {
+            "a"
+            + str(j): sentence_embedding(
+                target_template, j, EmbeddingType.CLS, tokenizer, model
+            )
+            for j in AA
+        }
+        B = {
+            "b"
+            + str(j): sentence_embedding(
+                target_template, j, EmbeddingType.CLS, tokenizer, model
+            )
+            for j in BB
+        }
+
+        (A, B) = convert_keys_to_ints(A, B)
+
+        AB = A.copy()
+        AB.update(B)
+
+        cossims = construct_cossim_lookup(XY, AB)
+        A = np.array(list(A), dtype=np.int)
+        B = np.array(list(B), dtype=np.int)
+
+        s_wAB_memo = s_wAB(X, Y, cossims=cossims)
+        df1, df2 = s_XAB_df(A, B, s_wAB_memo)
+        effect_size = get_effect_size(df1, df2)
+        score_dict[i] = effect_size
+    return score_dict
