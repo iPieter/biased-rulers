@@ -219,7 +219,13 @@ def get_effect_size(df1, df2, k=0):
     return diff / std_
 
 
-def seat_test(attribute_template: str, target_template: str, tokenizer, model):
+def test(
+    attribute_template: str,
+    target_template: str,
+    tokenizer,
+    model,
+    embedding_type: EmbeddingType.CLS,
+):
     """
     Calculate SEAT score.
     """
@@ -228,14 +234,14 @@ def seat_test(attribute_template: str, target_template: str, tokenizer, model):
     X = {
         "x"
         + str(j): sentence_embedding(
-            attribute_template, j, EmbeddingType.CLS, tokenizer, model
+            attribute_template, j, embedding_type, tokenizer, model
         )
         for j in XX
     }
     Y = {
         "y"
         + str(j): sentence_embedding(
-            attribute_template, j, EmbeddingType.CLS, tokenizer, model
+            attribute_template, j, embedding_type, tokenizer, model
         )
         for j in YY
     }
@@ -253,14 +259,14 @@ def seat_test(attribute_template: str, target_template: str, tokenizer, model):
         A = {
             "a"
             + str(j): sentence_embedding(
-                target_template, j, EmbeddingType.CLS, tokenizer, model
+                target_template, j, embedding_type, tokenizer, model
             )
             for j in AA
         }
         B = {
             "b"
             + str(j): sentence_embedding(
-                target_template, j, EmbeddingType.CLS, tokenizer, model
+                target_template, j, embedding_type, tokenizer, model
             )
             for j in BB
         }
@@ -279,3 +285,32 @@ def seat_test(attribute_template: str, target_template: str, tokenizer, model):
         effect_size = get_effect_size(df1, df2)
         score_dict[i] = effect_size
     return score_dict
+
+
+def seat_test(attribute_template: str, target_template: str, tokenizer, model):
+    """
+    SEAT test with CLS embeddings.
+    """
+    return test(
+        attribute_template, target_template, tokenizer, model, EmbeddingType.CLS
+    )
+
+
+def lauscher_et_al_test(
+    attribute_template: str, target_template: str, tokenizer, model
+):
+    """
+    Variation of the SEAT test with Vulic et al. (2020) embeddings.
+    """
+    return test(
+        attribute_template, target_template, tokenizer, model, EmbeddingType.VULIC
+    )
+
+
+def tan_et_al_test(attribute_template: str, target_template: str, tokenizer, model):
+    """
+    Variation of the SEAT test with pooled embeddings.
+    """
+    return test(
+        attribute_template, target_template, tokenizer, model, EmbeddingType.POOLED_NO_CONTEXT
+    )
