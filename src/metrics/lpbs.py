@@ -132,6 +132,6 @@ def lpbs_test(attribute_template: str, target_template: str, tokenizer, model):
     bias_outcomes = pd.DataFrame(outcomes).describe()
 
     return (
-        results["gender_fill_bias_prior_corrected"]["mean"],
-        results["gender_fill_bias_prior_corrected"]["std"],
+        bias_outcomes["gender_fill_bias_prior_corrected"]["mean"],
+        bias_outcomes["gender_fill_bias_prior_corrected"]["std"],
     )

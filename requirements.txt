@@ -3,7 +3,7 @@ backcall==0.2.0
 certifi==2021.10.8
 charset-normalizer==2.0.9
 click==8.0.3
-dataclasses==0.8
+dataclasses
 decorator==5.1.0
 entrypoints==0.3
 filelock==3.4.0
