@@ -116,6 +116,8 @@ def bias_score(
 def lpbs_test(attribute_template: str, target_template: str, tokenizer, model):
     """
     Log probability bias score test.
+
+    :returns: Tuple with mean and standard deviation
     """
 
     df = salaries.load_data()
@@ -127,6 +129,9 @@ def lpbs_test(attribute_template: str, target_template: str, tokenizer, model):
 
         outcomes.append(outcome)
 
-    bias_outcomes = pd.DataFrame(outcomes)
+    bias_outcomes = pd.DataFrame(outcomes).describe()
 
-    return bias_outcomes.describe()
+    return (
+        results["gender_fill_bias_prior_corrected"]["mean"],
+        results["gender_fill_bias_prior_corrected"]["std"],
+    )

@@ -49,7 +49,7 @@ def sentence_embedding(template, word, embedding_type: EmbeddingType, tokenizer,
     if embedding_type == EmbeddingType.CLS:
         sentence = template.replace("_", word)
         inputs = tokenizer(sentence, return_tensors="pt")
-        outputs = model(**inputs)
+        outputs = model(**inputs, output_hidden_states=True)
         last_hidden_states = outputs.last_hidden_state
         token_embeddings = last_hidden_states
         return token_embeddings[0][0].cpu().detach().numpy()
@@ -59,7 +59,7 @@ def sentence_embedding(template, word, embedding_type: EmbeddingType, tokenizer,
         template = "_"
         sentence = template.replace("_", word)
         inputs = tokenizer(sentence, return_tensors="pt")
-        outputs = model(**inputs)
+        outputs = model(**inputs, output_hidden_states=True)
         last_hidden_states = outputs.last_hidden_state
         token_embeddings = last_hidden_states
         return token_embeddings[0][0].cpu().detach().numpy()
@@ -71,7 +71,7 @@ def sentence_embedding(template, word, embedding_type: EmbeddingType, tokenizer,
         end = -1
         sentence = template.replace("_", word)
         inputs = tokenizer(sentence, return_tensors="pt")
-        outputs = model(**inputs)
+        outputs = model(**inputs, output_hidden_states=True)
         last_hidden_states = outputs.last_hidden_state
         token_embeddings = last_hidden_states
         input_mask_expanded = (
@@ -88,7 +88,7 @@ def sentence_embedding(template, word, embedding_type: EmbeddingType, tokenizer,
         end = -2
         sentence = template.replace("_", word)
         inputs = tokenizer(sentence, return_tensors="pt")
-        outputs = model(**inputs)
+        outputs = model(**inputs, output_hidden_states=True)
         last_hidden_states = outputs.last_hidden_state
         token_embeddings = last_hidden_states
         input_mask_expanded = (
