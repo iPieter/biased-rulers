@@ -12,4 +12,4 @@
 -The notebooks folder contains 2 subfolders LM_correlations and sublist correlations
 - LM_correlations: contains correlation results on how different template types and embedding types correlate based on scores from different language models.
 - sublist_correlations: contains correlation results on how different template types and embedding types correlate based on scores from different sublist of jobs.
-- correlation_analysis_Lms.ipynb in each folder contains the results from the correlation experiments
+- correlation_analysis*.ipynb in each folder contains the results from the correlation experiments
