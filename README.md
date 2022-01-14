@@ -13,4 +13,4 @@
 - LM_correlations: contains correlation results on how different template types and embedding types correlate based on scores from different language models.
 - sublist_correlations: contains correlation results on how different template types and embedding types correlate based on scores from different sublist of jobs.
 - correlation_analysis*.ipynb in each folder contains the results from the correlation experiments
-- All codes used for Winobias experiments are directly adopted from Manela et al. (2021) https://github.com/12kleingordon34/NLP_masters_project
+- The codes used for Winobias experiments are directly adopted from Manela et al. (2021) https://github.com/12kleingordon34/NLP_masters_project
