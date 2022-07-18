@@ -113,7 +113,7 @@ def bias_score(
     }
 
 
-def lpbs_test(attribute_template: str, target_template: str, tokenizer, model):
+def lpbs_test(tokenizer, model):
     """
     Log probability bias score test.
 
