@@ -1,4 +1,5 @@
 # Biased rulers
+[![Tests](https://github.com/iPieter/biased-rulers/actions/workflows/tests.yml/badge.svg)](https://github.com/iPieter/biased-rulers/actions/workflows/tests.yml)
 
 ## A Survey on Quantifying Biases in Pretrained Language Models
 
