@@ -17,6 +17,7 @@ pytz==2022.1
 PyYAML==6.0
 regex==2022.7.9
 requests==2.28.1
+scipy==1.8.1
 six==1.16.0
 tokenizer==3.4.1
 tokenizers==0.12.1
