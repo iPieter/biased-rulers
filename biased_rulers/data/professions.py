@@ -12,7 +12,7 @@ class Dataset:
 
 
 def load_dataset():
-    df_professions = pd.read_csv("src/data/professionsBLS2015.csv")
+    df_professions = pd.read_csv("biased_rulers/data/professionsBLS2015.csv")
 
     df_professions2 = df_professions
     del df_professions2["label2"]

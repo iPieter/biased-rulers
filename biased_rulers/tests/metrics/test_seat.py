@@ -3,7 +3,7 @@ import numpy as np
 from transformers import AutoTokenizer, AutoModelForMaskedLM, AutoModel
 from pytest import approx
 
-from src.metrics import seat
+from biased_rulers.metrics import seat
 
 def test_seat_bert_base():
     model_type = "bert-base-multilingual-uncased"

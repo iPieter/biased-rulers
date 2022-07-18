@@ -14,7 +14,7 @@ def read_data():
 
     df_data = pd.DataFrame(columns=["sent1", "sent2", "direction", "bias_type"])
 
-    with open("src/data/crows_pairs_anonymized.csv", encoding="utf-8") as f:
+    with open("biased_rulers/data/crows_pairs_anonymized.csv", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
             direction, gold_bias = "_", "_"
