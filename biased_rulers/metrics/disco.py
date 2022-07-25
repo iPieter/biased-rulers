@@ -22,9 +22,9 @@ def disco_test(tokenizer: BertTokenizer, model: BertModel):
         template = template.replace("BLANK", tokenizer.mask_token)
         for noun in nouns.iterrows():
             x_tokens, y_tokens = [], []
-            for x in pipe(template.replace("PERSON", noun[1][0]), top_k=3):
+            for x in pipe(template.replace("PERSON", "The " + noun[1][0]), top_k=3):
                 x_tokens.append(x['token_str'])
-            for x in pipe(template.replace("PERSON", noun[1][1]), top_k=3):
+            for x in pipe(template.replace("PERSON", "The " + noun[1][1]), top_k=3):
                 y_tokens.append(x['token_str'])
         #print( Counter(x_tokens) )
         #print( Counter(y_tokens) )
