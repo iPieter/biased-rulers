@@ -52,3 +52,13 @@ def disco_test(tokenizer: BertTokenizer, model: BertModel):
                 #print(f"{noun[1][0]}: accept H0") 
             
     return 
+
+
+def lauscher_et_al_test(tokenizer: BertTokenizer, model: BertModel):
+    """
+    Simplified DisCo test vy Lauscher et al. (2021).
+
+    https://arxiv.org/pdf/2109.03646.pdf
+    """
+
+    return
